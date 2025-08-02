@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import appConfig from './config/app.config';
 import { PrismaModule } from './prisma/prisma.module';
 import { RoomModule } from './room/room.module';
+import { OwnerModule } from './owner/owner.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RoomModule } from './room/room.module';
     }),
     PrismaModule,
     RoomModule,
+    OwnerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
