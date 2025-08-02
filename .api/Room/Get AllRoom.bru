@@ -1,0 +1,15 @@
+meta {
+  name: Get AllRoom
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{url}}/room
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: SCH
+}

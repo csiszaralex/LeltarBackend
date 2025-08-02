@@ -1,0 +1,15 @@
+meta {
+  name: Delete Room
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{url}}/room/1
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: ASD
+}
