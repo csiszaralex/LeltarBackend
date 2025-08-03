@@ -1,0 +1,21 @@
+meta {
+  name: Update Item
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{url}}/item/2
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  description: hihi
+  ~name: Monitor
+  ~state: AVAILABLE
+  ~purchaseDate: 2025-03-01
+  ~value: 20000
+  ~ownerId: 2
+  ~roomId: 2
+}

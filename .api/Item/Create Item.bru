@@ -1,0 +1,21 @@
+meta {
+  name: Create Item
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/item
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: Monitor
+  state: AVAILABLE
+  purchaseDate: 2025-03-01
+  value: 20000
+  ownerId: 2
+  ~description: hihi
+  ~roomId: 2
+}

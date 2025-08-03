@@ -1,7 +1,14 @@
-import { CallHandler, ExecutionContext, Injectable, Logger, NestInterceptor } from '@nestjs/common';
-import { Request } from 'express';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import {
+  CallHandler,
+  ExecutionContext,
+  HttpException,
+  Injectable,
+  Logger,
+  NestInterceptor,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
+import { Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -9,6 +16,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const logger = new Logger('LOG');
     const start = Date.now();
     const request = context.switchToHttp().getRequest<Request>();
+    const response = context.switchToHttp().getResponse<Response>();
     const { method, url } = request;
     const body = this.sanitizeObject(request.body);
     const params = request.params;
@@ -18,7 +26,19 @@ export class LoggingInterceptor implements NestInterceptor {
         if (body && 'password' in body) body.password = '***';
         const duration = Date.now() - start;
 
-        logger.verbose(`${method};${url};${duration}ms;${this.str(body)};${this.str(params)}`);
+        logger.verbose(
+          `${method};${url};${duration}ms;${this.str(body)};${this.str(params)};${response.statusCode}`,
+        );
+      }),
+      catchError((err: HttpException) => {
+        if (body && 'password' in body) body.password = '***';
+        const duration = Date.now() - start;
+
+        logger.verbose(
+          `${method};${url};${duration}ms;${this.str(body)};${this.str(params)};${err.getStatus()}`,
+        );
+
+        return throwError(() => err);
       }),
     );
   }
